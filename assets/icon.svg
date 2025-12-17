@@ -1,0 +1,55 @@
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="iconBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1E3A8A;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1E40AF;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="iconAccent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#10B981;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#34D399;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#F59E0B;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="512" height="512" rx="110" fill="url(#iconBg)"/>
+  
+  <!-- Calculator Shape -->
+  <rect x="100" y="80" width="312" height="380" rx="30" fill="white" opacity="0.15"/>
+  
+  <!-- Display -->
+  <rect x="130" y="110" width="252" height="80" rx="15" fill="white" opacity="0.9"/>
+  
+  <!-- Display Text Effect (Lines suggesting numbers) -->
+  <rect x="330" y="135" width="35" height="8" rx="4" fill="url(#iconAccent)"/>
+  <rect x="290" y="135" width="25" height="8" rx="4" fill="url(#iconBg)" opacity="0.3"/>
+  <rect x="250" y="135" width="25" height="8" rx="4" fill="url(#iconBg)" opacity="0.3"/>
+  
+  <rect x="320" y="160" width="45" height="10" rx="5" fill="url(#iconAccent)"/>
+  <rect x="270" y="160" width="35" height="10" rx="5" fill="url(#iconBg)" opacity="0.3"/>
+  
+  <!-- Button Grid -->
+  <!-- Row 1 -->
+  <circle cx="160" cy="250" r="25" fill="white" opacity="0.6"/>
+  <circle cx="230" cy="250" r="25" fill="white" opacity="0.6"/>
+  <circle cx="300" cy="250" r="25" fill="white" opacity="0.6"/>
+  <circle cx="370" cy="250" r="25" fill="url(#iconAccent)"/>
+  
+  <!-- Row 2 -->
+  <circle cx="160" cy="320" r="25" fill="white" opacity="0.6"/>
+  <circle cx="230" cy="320" r="25" fill="white" opacity="0.6"/>
+  <circle cx="300" cy="320" r="25" fill="white" opacity="0.6"/>
+  <circle cx="370" cy="320" r="25" fill="url(#iconAccent)"/>
+  
+  <!-- Row 3 -->
+  <circle cx="160" cy="390" r="25" fill="white" opacity="0.6"/>
+  <circle cx="230" cy="390" r="25" fill="white" opacity="0.6"/>
+  <circle cx="300" cy="390" r="25" fill="white" opacity="0.6"/>
+  <circle cx="370" cy="390" r="25" fill="url(#iconAccent)"/>
+  
+  <!-- Dollar Symbol as Primary Icon -->
+  <g transform="translate(380, 90)">
+    <circle cx="0" cy="0" r="45" fill="url(#iconAccent)"/>
+    <text x="0" y="18" font-family="Arial, sans-serif" font-size="50" font-weight="bold" fill="white" text-anchor="middle">$</text>
+  </g>
+</svg>

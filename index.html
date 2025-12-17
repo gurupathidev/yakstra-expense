@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Yakstra - Track income and expenses across all platforms with multi-currency support">
+    <meta name="theme-color" content="#1E3A8A">
+
+    <!-- PWA Configuration -->
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/svg+xml" href="assets/icon.svg">
+
+    <title>Yakstra - Income & Expense Tracker</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <img src="assets/logo.svg" alt="Yakstra Logo" class="nav-logo">
+                <h1>Yakstra</h1>
+            </div>
+            <div class="nav-controls">
+                <select id="currencySelector" class="currency-select" aria-label="Select currency">
+                    <!-- Populated by JavaScript -->
+                </select>
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                    <span class="theme-icon">🌙</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <main class="container">
+        <!-- Tab Navigation -->
+        <div class="tabs">
+            <button class="tab active" data-tab="dashboard">
+                <span class="tab-icon">📊</span>
+                <span>Dashboard</span>
+            </button>
+            <button class="tab" data-tab="transactions">
+                <span class="tab-icon">💰</span>
+                <span>Transactions</span>
+            </button>
+            <button class="tab" data-tab="statistics">
+                <span class="tab-icon">📈</span>
+                <span>Statistics</span>
+            </button>
+            <button class="tab" data-tab="settings">
+                <span class="tab-icon">⚙️</span>
+                <span>Settings</span>
+            </button>
+        </div>
+
+        <!-- Dashboard Tab -->
+        <section id="dashboard" class="tab-content active">
+            <div class="summary-cards">
+                <div class="card summary-card income-card">
+                    <div class="card-icon" style="background: linear-gradient(135deg, #10B981, #059669);">💵</div>
+                    <div class="card-content">
+                        <h3>Monthly Income</h3>
+                        <p class="card-value" id="monthlyIncome">$0.00</p>
+                        <span class="card-label" id="currentMonth1">January 2024</span>
+                    </div>
+                </div>
+                <div class="card summary-card expense-card">
+                    <div class="card-icon" style="background: linear-gradient(135deg, #EF4444, #DC2626);">📤</div>
+                    <div class="card-content">
+                        <h3>Monthly Expenses</h3>
+                        <p class="card-value" id="monthlyExpenses">$0.00</p>
+                        <span class="card-label" id="currentMonth2">January 2024</span>
+                    </div>
+                </div>
+                <div class="card summary-card balance-card">
+                    <div class="card-icon" style="background: linear-gradient(135deg, #3B82F6, #1E3A8A);">💰</div>
+                    <div class="card-content">
+                        <h3>Monthly Balance</h3>
+                        <p class="card-value" id="monthlyBalance">$0.00</p>
+                        <span class="card-label" id="currentMonth3">January 2024</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dashboard-actions">
+                <button class="btn btn-primary" id="emailReportBtn">
+                    <span>📧</span> Email Monthly Report
+                </button>
+            </div>
+
+            <div class="dashboard-section">
+                <h2>Recent Transactions</h2>
+                <div id="recentTransactions" class="transaction-list">
+                    <div class="empty-state">
+                        <div class="empty-icon">📝</div>
+                        <p>No transactions yet. Click the + button to add income or expense!</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Transactions Tab -->
+        <section id="transactions" class="tab-content">
+            <div class="transactions-header">
+                <h2>All Transactions</h2>
+                <div class="filter-controls">
+                    <select id="typeFilter" class="filter-select">
+                        <option value="">All Types</option>
+                        <option value="income">Income</option>
+                        <option value="expense">Expense</option>
+                    </select>
+                    <select id="categoryFilter" class="filter-select">
+                        <option value="">All Categories</option>
+                    </select>
+                    <input type="month" id="monthFilter" class="filter-input">
+                </div>
+            </div>
+            <div id="allTransactions" class="transaction-list">
+                <div class="empty-state">
+                    <div class="empty-icon">💼</div>
+                    <p>No transactions to display</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Statistics Tab -->
+        <section id="statistics" class="tab-content">
+            <h2>Financial Statistics</h2>
+            <div class="stats-container">
+                <div class="card">
+                    <h3>Income vs Expenses</h3>
+                    <canvas id="incomeExpenseChart"></canvas>
+                    <div id="incomeExpenseLegend" class="chart-legend"></div>
+                </div>
+                <div class="card">
+                    <h3>Expense Categories</h3>
+                    <canvas id="categoryChart"></canvas>
+                    <div id="categoryLegend" class="chart-legend"></div>
+                </div>
+                <div class="card">
+                    <h3>Top Expense Categories</h3>
+                    <div id="topCategories" class="top-list"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Settings Tab -->
+        <section id="settings" class="tab-content">
+            <h2>Settings & Data Management</h2>
+            <div class="settings-section">
+                <div class="card settings-card">
+                    <h3>Currency Settings</h3>
+                    <div class="settings-group">
+                        <label for="currencySelectorSettings">Default Currency</label>
+                        <select id="currencySelectorSettings" class="filter-select">
+                            <!-- Populated by JavaScript -->
+                        </select>
+                        <p class="settings-hint">Select your preferred currency for displays</p>
+                    </div>
+                </div>
+
+                <div class="card settings-card">
+                    <h3>Data Management</h3>
+                    <div class="settings-group">
+                        <button class="btn btn-primary" id="importBtn">
+                            <span>📥</span> Import Data
+                        </button>
+                        <input type="file" id="importFile" accept=".json,.csv" style="display: none;">
+                        <p class="settings-hint">Import transactions from JSON or CSV file</p>
+                    </div>
+                    <div class="settings-group">
+                        <div class="export-buttons">
+                            <button class=" btn btn-secondary" id="exportJsonBtn">
+                                <span>📤</span> Export as JSON
+                            </button>
+                            <button class="btn btn-secondary" id="exportCsvBtn">
+                                <span>📤</span> Export as CSV
+                            </button>
+                        </div>
+                        <p class="settings-hint">Export your data for backup or analysis</p>
+                    </div>
+                    <div class="settings-group">
+                        <button class="btn btn-danger" id="clearDataBtn">
+                            <span>🗑️</span> Clear All Data
+                        </button>
+                        <p class="settings-hint">Permanently delete all transactions</p>
+                    </div>
+                </div>
+
+                <div class="card settings-card">
+                    <h3>About Yakstra</h3>
+                    <div class="about-content">
+                        <img src="assets/logo.svg" alt="Yakstra Logo" class="about-logo">
+                        <p><strong>Yakstra Income & Expense Tracker</strong></p>
+                        <p>Version 2.0.0</p>
+                        <p>Track income and expenses with multi-currency support</p>
+                        <p class="settings-hint">Works on iOS, Android, Windows, macOS, and Linux</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Floating Action Buttons -->
+        <div class="fab-container">
+            <button class="fab fab-income" id="addIncomeBtn" aria-label="Add income">
+                <span>+</span>
+            </button>
+            <button class="fab fab-expense" id="addExpenseBtn" aria-label="Add expense">
+                <span>+</span>
+            </button>
+        </div>
+    </main>
+
+    <!-- Add/Edit Transaction Modal -->
+    <div id="transactionModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Add Transaction</h2>
+                <button class="modal-close" id="closeModal">&times;</button>
+            </div>
+            <form id="transactionForm">
+                <div class="form-group">
+                    <label>Transaction Type *</label>
+                    <div class="type-toggle">
+                        <button type="button" class="type-btn active" data-type="expense">
+                            <span>💳</span> Expense
+                        </button>
+                        <button type="button" class="type-btn" data-type="income">
+                            <span>💵</span> Income
+                        </button>
+                    </div>
+                    <input type="hidden" id="transactionType" value="expense">
+                </div>
+
+                <div class="form-group">
+                    <label for="transactionTitle">Title *</label>
+                    <input type="text" id="transactionTitle" required placeholder="e.g., Salary, Grocery Shopping">
+                </div>
+
+                <div class="form-group">
+                    <label for="transactionAmount">Amount *</label>
+                    <input type="number" id="transactionAmount" step="0.01" min="0" required placeholder="0.00">
+                </div>
+
+                <div class="form-group">
+                    <label for="transactionCategory">Category *</label>
+                    <select id="transactionCategory" required>
+                        <!-- Will be populated based on type -->
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="transactionDate">Date *</label>
+                    <input type="date" id="transactionDate" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="paymentMethod">Payment/Source Method</label>
+                    <select id="paymentMethod">
+                        <option value="Cash">💵 Cash</option>
+                        <option value="Credit Card">💳 Credit Card</option>
+                        <option value="Debit Card">💳 Debit Card</option>
+                        <option value="Digital Wallet">📱 Digital Wallet</option>
+                        <option value="Bank Transfer">🏦 Bank Transfer</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="transactionDescription">Description</label>
+                    <textarea id="transactionDescription" rows="3" placeholder="Add any additional notes..."></textarea>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" id="cancelBtn">Cancel</button>
+                    <button type="submit" class="btn btn-primary">
+                        <span id="submitBtnText">Add Transaction</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>

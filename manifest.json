@@ -36,25 +36,25 @@
   "screenshots": [
     {
       "src": "assets/screenshots/dashboard.png",
-      "sizes": "1280x800",
+      "sizes": "2400x1456",
       "type": "image/png",
       "label": "Dashboard view showing monthly income and expenses"
     },
     {
       "src": "assets/screenshots/statistics.png",
-      "sizes": "1280x800",
+      "sizes": "2400x1456",
       "type": "image/png",
       "label": "Statistics view with interactive charts"
     },
     {
       "src": "assets/screenshots/settings.png",
-      "sizes": "1280x800",
+      "sizes": "2400x1456",
       "type": "image/png",
       "label": "Settings view for customization and data management"
     },
     {
       "src": "assets/screenshots/mobile.png",
-      "sizes": "1280x800",
+      "sizes": "2400x1456",
       "type": "image/png",
       "form_factor": "narrow",
       "label": "Mobile responsive interface"
